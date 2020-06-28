@@ -1,0 +1,67 @@
+<html>
+<head>
+</head>
+  <body>
+      <p>Firebase Remote LED Control</p>
+      <h1 id="OUT_TEXT"></h1>
+      <button id= "onBtn" onclick="onFunction()">LED ON</button>
+      <button id="offBtn" onclick="offFunction()">LED OFF</button>
+
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+     <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script>       <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+
+     <script>
+       // Your web app's Firebase configuration
+       var firebaseConfig = {
+           apiKey: "AIzaSyD7Bw_aTP30daWQaFK7fdZaSCjUvxo8Huk",
+           authDomain: "led-on-off-7ac0f.firebaseapp.com",
+           databaseURL: "https://led-on-off-7ac0f.firebaseio.com",
+           projectId: "led-on-off-7ac0f",
+           storageBucket: "led-on-off-7ac0f.appspot.com",
+           messagingSenderId: "188514720955",
+           appId: "1:188514720955:web:3485ae98002f8cc3dd1d9e",
+           measurementId: "G-L7MPNN4R9B"
+       };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+      </script>
+
+      <script>
+        // getting the text value from the database
+        var led_one = document.getElementById('ON_BUTTON');
+        var led_off = document.getElementById('OFF_BUTTON');
+
+        var dbRef = firebase.database().ref().child('LED_STATUS');
+
+        // ON 버턴 클릭하여 DB 값 true 설정
+        function onFunction() {
+            dbRef.set('true')
+        }
+
+          // OFF 버튼 클릭하여 DB 값 false 설정
+        function offFunction() {
+            dbRef.set('false')
+        }
+
+        // 현재 상태의 database 값 읽어오기
+        dbRef.on("value", function(snapshot) {
+          //console.log(snapshot.val());
+          // OUT_TEXT.innerText = snapshot.val();
+          var led_state = snapshot.val();
+
+          if (led_state == "true") {
+            OUT_TEXT.innerText = "LED ON";
+          } else if (led_state == "false"){
+            OUT_TEXT.innerText = "LED OFF";
+          }
+
+        }, function (error) {
+          console.log("Error: " + error.code);
+        });
+      </script>
+    </body>
+</html>
