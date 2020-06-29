@@ -39,24 +39,23 @@
 
         // ON 버턴 클릭하여 DB 값 true 설정
         function onFunction() {
-            dbRef.set('true')
+            dbRef.set('ON')
         }
 
           // OFF 버튼 클릭하여 DB 값 false 설정
         function offFunction() {
-            dbRef.set('false')
+            dbRef.set('OFF')
         }
 
         // 현재 상태의 database 값 읽어오기
         dbRef.on("value", function(snapshot) {
           //console.log(snapshot.val());
-          // OUT_TEXT.innerText = snapshot.val();
-          var led_state = snapshot.val();
+          //var led_state = snapshot.val();
 
-          if (led_state == "true") {
-            OUT_TEXT.innerText = "LED ON";
-          } else if (led_state == "false"){
-            OUT_TEXT.innerText = "LED OFF";
+          if (snapshot.val() == 'ON') {
+            OUT_TEXT.innerText = 'LED is ON';
+          } else if (snapshot.val() == 'OFF'){
+            OUT_TEXT.innerText = 'LED is OFF';
           }
 
         }, function (error) {
